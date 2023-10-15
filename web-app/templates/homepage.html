@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+</head>
+<body>
+    <div class="app-header">
+        <h1>
+            <img src="../static/images/auth_logo.svg" alt="AUTH Icon">
+            Search Engine
+        </h1>
+    </div>
+    <div class="app-container">
+        <div class="app-logo">
+            <img src="../static/images/infoquest-1.png" alt="Search Engine Icon">
+        </div>
+        <div class="search-form">
+            <input type="text" class="search-bar" name="q" placeholder="Place a query to the engine">
+            <button type="submit" class="search-button">
+                <img src="../static/images/searchengin.svg" alt="Search Icon">
+            </button>
+        </div>
+    </div>
+</body>
+</html>
