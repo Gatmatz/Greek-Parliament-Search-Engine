@@ -22,53 +22,45 @@ img {
     margin: 0;
 }
 
-.app-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
 .app-logo {
-    width: 272px; /* Adjust the width of the logo */
-    margin-bottom: 20px;
+    width: 20%; /* Adjust the width of the logo */
+    height: 80px; /* Adjust the height of the logo */
 }
 
-.search-form {
+.search-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
+    flex-direction: column;
 }
 
 .search-bar {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 20px;
-}
-
-.search-button {
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
     display: flex;
     align-items: center;
-    margin: 0;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(150, 150, 255, 0.5); /* Light purple shadow */
+    overflow: hidden;
 }
 
-.search-button img {
-    margin: 0;
+#search-input {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 20px 0 0 20px;
+    width: 300px;
 }
 
-.search-button span {
-    margin-right: 10px;
+#search-button {
+    background-color: #8a2be2;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    padding: 10px;
 }
 
-.search-button:hover {
-    background-color: #fff;
+#search-button img {
+    width: 20px; /* Adjust the size of the magnifying glass icon */
+    height: 100%;
+    filter: brightness(0) invert(1);
 }
