@@ -8,9 +8,9 @@ def homepage():
     return render_template('homepage.html')
 
 
-@app.route('/query-results')
+@app.route('/query_results')
 def query_results():
-    return 'Query results'
+    return render_template('results.html')
 
 
 if __name__ == '__main__':

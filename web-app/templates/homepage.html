@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
     <title>Homepage</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
 </head>
@@ -12,13 +13,15 @@
             Search Engine
         </h1>
     </div>
-    <div class="search-container">
-        <img src="../static/images/NefosQuestLogo.png" alt="App Logo" class="app-logo">
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Place your query to the engine">
-            <button id="search-button">
-                <img src="../static/images/searchengin.svg" alt="Search">
-            </button>
+    <div class="container">
+        <div class="search-container">
+            <img src="../static/images/NefosQuestLogo.png" alt="App Logo" class="app-logo">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Place your query to the engine">
+                <button id="search-button" onclick="location.href='{{ url_for('query_results') }}'">
+                    <img src="../static/images/search_icon.svg" alt="Search">
+                </button>
+            </div>
         </div>
     </div>
 </body>
