@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, request, render_template
 app = Flask(__name__)
 
 
@@ -10,7 +9,8 @@ def homepage():
 
 @app.route('/query_results')
 def query_results():
-    return render_template('results.html')
+    query = request.args.get('query')
+    return render_template('results.html', search_query=query)
 
 
 if __name__ == '__main__':

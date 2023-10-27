@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Results</title>
+    <title>{{ search_query }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 </head>
 <body>
-    <h1>Query Results</h1>
+    <div class="app-header">
+        <h1>
+            <img src="../static/images/NefosQuestLogo-small.png" alt="Logo">
+            NefosQuest
+        </h1>
+    </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
-    <title>Homepage</title>
+    <title>NefosQuest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
 </head>
 <body>
@@ -17,12 +17,13 @@
         <div class="search-container">
             <img src="../static/images/NefosQuestLogo.png" alt="App Logo" class="app-logo">
             <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Place your query to the engine">
-                <button id="search-button" onclick="location.href='{{ url_for('query_results') }}'">
+                <input type="text" id="search-input" name="query" placeholder="Place your query to the engine">
+                <button id="search-button" onclick="submitSearch()">
                     <img src="../static/images/search_icon.svg" alt="Search">
                 </button>
             </div>
         </div>
     </div>
 </body>
+<script src="{{ url_for('static', filename='js/homepage.js') }}"></script>
 </html>
