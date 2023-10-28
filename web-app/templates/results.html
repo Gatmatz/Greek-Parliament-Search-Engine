@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ search_query }}</title>
+    <title>{{ search_query }} - NefosQuest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
@@ -13,6 +13,9 @@
             <img src="../static/images/NefosQuestLogo-small.png" alt="Logo">
             NefosQuest
         </h1>
+    </div>
+    <div>
+        <h2>{{ search_results }}</h2>
     </div>
 </body>
 </html>

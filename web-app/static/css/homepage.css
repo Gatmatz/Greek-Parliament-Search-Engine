@@ -6,22 +6,6 @@ body {
     background-color: #ffffff;
 }
 
-img {
-    width: 50px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin: 5px;
-    vertical-align: middle; /* Align the image vertically with text */
-}
-.app-header {
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.app-header h1 {
-    color: #5D3FD3;
-    margin: 0;
-}
-
 .app-logo {
     width: 60%; /* Adjust the width of the logo */
     height: 50%; /* Adjust the height of the logo */
