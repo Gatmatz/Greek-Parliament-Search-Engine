@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template
-from engine.TF_IDF import search
-
+from backbone.search import perform_query
 
 app = Flask(__name__)
 
@@ -13,7 +12,7 @@ def homepage():
 @app.route('/query_results')
 def query_results():
     query = request.args.get('query')
-    query_results = search(query)
+    query_results = perform_query(query)
     return render_template('results.html', search_query=query, search_results=query_results)
 
 

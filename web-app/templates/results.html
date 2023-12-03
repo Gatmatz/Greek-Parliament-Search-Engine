@@ -7,15 +7,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 </head>
-<body>
-    <div class="app-header">
+<div class="app-header">
         <h1>
             <img src="../static/images/NefosQuestLogo-small.png" alt="Logo">
             NefosQuest
         </h1>
+</div>
+<body>
+<div id="center-container">
+    <div id="search-results">
+        {% for result in search_results %}
+            <div class="search-result">
+                <div class="title"><a href="#">Ομιλία:{{ result['ID'] }} από {{ result['member_name'] }}</a></div>
+                <div class="details">
+                    Ημερομηνία: {{ result['sitting_date'] }} <br>
+                    Περίοδος(Period): {{ result['parliamentary_period'] }} <br>
+                    Συνεδρία(Session): {{ result['parliamentary_session'] }} <br>
+                    Συνεδρίαση(Sitting): {{ result['parliamentary_sitting'] }} <br>
+                    Κόμμα(Party): {{ result['political_party'] }} <br>
+                    TD-IDF Score: {{ result.score }}
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    <div>
-        <h2>{{ search_results }}</h2>
-    </div>
+</div>
 </body>
 </html>

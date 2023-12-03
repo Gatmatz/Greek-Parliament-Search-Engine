@@ -1,5 +1,4 @@
 import string
-import pandas as pd
 from greek_stemmer import GreekStemmer
 
 # Letter replacement dictionary for accents
@@ -8,7 +7,7 @@ dictionary = {
     "ά": "α",
     "ό": "ο",
     "ή": "η",
-    "ύ": "ύ",
+    "ύ": "υ",
     "ί": "ι",
     "ώ": "ω"
 }
@@ -43,15 +42,6 @@ def preprocess_text(speech):
     return ' '.join(filtered)
 
 
-# Read the dataset
-dataset_path = '../data/small.csv'
-processed_path = '../data/processed.csv'
-dataset = pd.read_csv(dataset_path)
-
 # Read the stopwords and create a list of them
 with open('../data/stopwords-el.txt', 'r') as file:
     stopwords = set(file.read().splitlines())
-
-# Perform the preprocess and save the dataset to processed.csv
-dataset['speech'] = dataset['speech'].apply(preprocess_text)
-dataset.to_csv(processed_path, index=False)
