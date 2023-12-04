@@ -13,7 +13,7 @@ schema = Schema(ID=ID(stored=True),
                 speech=TEXT)
 
 # Create an index in a directory
-index_directory = "corpus"
+index_directory = "inverse_index"
 if not os.path.exists(index_directory):
     os.makedirs(index_directory)
 ix = create_in(index_directory, schema)
@@ -23,7 +23,7 @@ writer = ix.writer(limitmb=2048)
 csv.field_size_limit(1280918)
 
 # Load data from CSV and add documents to the index
-csv_file_path = "../data/final_processed.csv"
+csv_file_path = "../data/Processed_Greek_Parliament.csv"
 with open(csv_file_path, 'r', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:

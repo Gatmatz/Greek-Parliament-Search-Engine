@@ -5,7 +5,7 @@ from preprocess.preprocessing import preprocess_text
 
 
 def perform_query(search_term):
-    indexer_directory = "../backbone/corpus"
+    indexer_directory = "../backbone/inverse_index"
     ix = open_dir(indexer_directory)
 
     # Open the index searcher
