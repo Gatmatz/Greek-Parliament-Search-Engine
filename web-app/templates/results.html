@@ -18,14 +18,14 @@
     <div id="search-results">
         {% for result in search_results %}
             <div class="search-result">
-                <div class="title"><a href="#">Ομιλία:{{ result['ID'] }} από {{ result['member_name'] }}</a></div>
+                <div class="title"><a href="{{ url_for('show_speech', result_id=result['ID']) }}">Ομιλία από {{ result['member_name'] }}</a></div>
                 <div class="details">
-                    Ημερομηνία: {{ result['sitting_date'] }} <br>
-                    Περίοδος(Period): {{ result['parliamentary_period'] }} <br>
-                    Συνεδρία(Session): {{ result['parliamentary_session'] }} <br>
-                    Συνεδρίαση(Sitting): {{ result['parliamentary_sitting'] }} <br>
-                    Κόμμα(Party): {{ result['political_party'] }} <br>
-                    TD-IDF Score: {{ result.score }}
+                    <b>Ημερομηνία: </b> {{ result['sitting_date'] }} <br>
+                    <b>Περίοδος: </b> {{ result['parliamentary_period'] }} <br>
+                    <b>Συνεδρία: </b> {{ result['parliamentary_session'] }} <br>
+                    <b>Συνεδρίαση: </b> {{ result['parliamentary_sitting'] }} <br>
+                    <b>Κόμμα: </b> {{ result['political_party'] }} <br>
+                    <b>TD-IDF Score: </b> {{ result.score }}
                 </div>
             </div>
         {% endfor %}
