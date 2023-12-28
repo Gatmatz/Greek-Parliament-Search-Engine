@@ -23,5 +23,10 @@ def show_speech(result_id):
     return render_template('speech.html', result=result)
 
 
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
+
+
 if __name__ == '__main__':
     app.run()
