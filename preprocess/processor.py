@@ -9,4 +9,7 @@ dataset = pd.read_csv(dataset_path)
 
 # Perform the preprocess and save the dataset to processed.csv
 dataset['speech'] = dataset['speech'].apply(preprocess_text)
+dataset.dropna(subset=['speech', 'member_name'], inplace=True)
 dataset.to_csv(processed_path, index=False)
+
+

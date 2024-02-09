@@ -21,10 +21,3 @@ def perform_query(search_term):
     results = s.search(query, limit=100)
 
     return results
-
-
-
-
-
-
-
