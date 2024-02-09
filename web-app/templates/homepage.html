@@ -19,10 +19,7 @@
             <div class="dropdown">
                 <button class="analytics-btn">Analytics</button>
                 <div class="dropdown-content">
-                    <a href="{{ url_for('analytics', page='option1') }}">Member Similarity</a>
-                    <a href="{{ url_for('analytics', page='option2') }}">Option 2</a>
-                    <a href="{{ url_for('analytics', page='option3') }}">Option 3</a>
-                    <a href="{{ url_for('analytics', page='option4') }}">Option 4</a>
+                    <a href="{{ url_for('similarities', k=5) }}">Member Similarity</a>
                 </div>
             </div>
         </div>

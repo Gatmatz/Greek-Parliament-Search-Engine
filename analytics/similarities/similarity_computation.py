@@ -21,7 +21,7 @@ with open(aggregation_file, 'wb') as file:
     pickle.dump(aggregation, file)
 
 # TF-IDF Vectorization
-vectorizer = TfidfVectorizer()
+vectorizer = TfidfVectorizer(max_df=0.8)
 tfidf_matrix = vectorizer.fit_transform(aggregation['speech'])
 
 # Save TF-IDF matrix
