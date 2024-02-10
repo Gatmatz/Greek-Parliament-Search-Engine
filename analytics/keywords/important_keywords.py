@@ -3,7 +3,7 @@ import json
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Read the dataset
-dataset_path = '../../data/filtered_speeches_1989_1990.csv'
+dataset_path = '../../data/Processed_Greek_Parliament.csv'
 speeches = pd.read_csv(dataset_path, encoding='utf-8')
 speeches = speeches.dropna(subset=['speech'])
 
@@ -13,7 +13,7 @@ def preprocess_text(text):
 
 
 speeches['cleaned_speech'] = speeches['speech'].apply(preprocess_text)
-speeches['sitting_date'] = pd.to_datetime(speeches['sitting_date'], format='%d-%m-%Y').dt.year.astype(str)
+speeches['sitting_date'] = pd.to_datetime(speeches['sitting_date'], format='%d/%m/%Y').dt.year.astype(str)
 
 # Initialize TF-IDF Vectorizer
 tfidf_vectorizer = TfidfVectorizer()
@@ -62,7 +62,7 @@ for (party, year), group in speeches.groupby(['political_party', 'sitting_date']
 combined_results = {'MPs': mp_year_results, 'Parties': party_year_results}
 
 # Save results to a JSON file
-output_file = 'top_keywords_results.json'
+output_file = 'top_keywords_results_small.json'
 with open(output_file, 'w', encoding='utf-8') as f:  # Ensure UTF-8 encoding for JSON file
     json.dump(combined_results, f, indent=4, ensure_ascii=False)  # Set ensure_ascii to False for Unicode characters
 

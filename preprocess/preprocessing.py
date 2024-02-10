@@ -10,7 +10,7 @@ def strip_accents(s):
 
 
 # Basic function that removes the punctuation, make the words lowercase,
-# removes the one-letter words, removes the stopwords
+# removes the three-letter words, removes the stopwords
 # and performs STEMMing to the words
 def preprocess_text(speech):
     tokens = speech.split()
@@ -22,9 +22,12 @@ def preprocess_text(speech):
         # STEM the word
         cleaned = stemmer.stem(cleaned.upper()).lower()
         # Check if the cleaned word is not a one-letter word and not in stopwords
-        if len(cleaned) > 2 and cleaned not in stopwords:
+        if len(cleaned) > 3 and cleaned not in stopwords and not cleaned.isdigit():
             # Αdd it to the final list
             filtered.append(cleaned.lower())
+    # Return null if the final speech in empty
+    if len(filtered) == 0:
+        return None
     return ' '.join(filtered)
 
 
