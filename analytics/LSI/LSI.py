@@ -1,73 +1,43 @@
+import sys
 import pandas as pd
-import os
-from gensim import corpora, models
-from gensim.parsing.preprocessing import strip_tags, strip_numeric, strip_short, preprocess_string
-import pickle
-
-# Set custom filters for GENSIM preprocessing
-# The preprocessing involves tokenization, removing the tokens that contain numbers,
-# and remove the tokens with less than 3 characters.
-CUSTOM_FILTERS = [strip_tags, strip_numeric, strip_short]
-
-
-def tokenize(speech):
-    return preprocess_string(speech, CUSTOM_FILTERS)
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
 
 # Initialize the dataset path
 dataset_path = '../../data/Processed_Greek_Parliament.csv'
 # Read the dataset path
-dataset = pd.read_csv(dataset_path)
-speeches = dataset['speech'].astype(str)
+speeches = pd.read_csv(dataset_path)
 
-processed_corpus = speeches.apply(tokenize)
+# Initialize the TF-IDF Operation
+vectorizer = TfidfVectorizer(sublinear_tf=True)    # Chopping off the terms with big score
+tfidf_matrix = vectorizer.fit_transform(speeches['speech'])
 
-dictionary_path = "storage/dictionary.dict"
-if os.path.exists(dictionary_path):
-    dictionary = corpora.Dictionary.load(dictionary_path)
-else:
-    dictionary = corpora.Dictionary(processed_corpus)
-    dictionary.save(dictionary_path)
+# Define the number of topics
+num_components = 200
 
+# Create SVD object
+lsi = TruncatedSVD(n_components=num_components, random_state=42)
 
-bow_corpus_path = "storage/bow_corpus.pkl"
-if os.path.exists(bow_corpus_path):
-    with open(bow_corpus_path, "rb") as file:
-        bow_corpus = pickle.load(file)
-else:
-    bow_corpus = [dictionary.doc2bow(text) for text in processed_corpus]
-    with open(bow_corpus_path, "wb") as file:
-        pickle.dump(bow_corpus, file)
+# Fit SVD model on speeches
+lsi.fit_transform(tfidf_matrix)
 
+# Define the file name
+output_file = f"topics{num_components}.txt"
 
-tfidf_path = "storage/tfidf_model"
-if os.path.exists(tfidf_path):
-    tfidf = models.TfidfModel.load(tfidf_path)
-else:
-    tfidf = models.TfidfModel(bow_corpus, smartirs='npu')
-    tfidf.save(tfidf_path)
+# Redirect stdout to the output file
+sys.stdout = open(output_file, "w")
 
-corpus_tfidf_path = "storage/corpus_tfidf.pkl"
-if os.path.exists(corpus_tfidf_path):
-    with open(corpus_tfidf_path, "rb") as file:
-        corpus_tfidf = pickle.load(file)
-else:
-    corpus_tfidf = tfidf[bow_corpus]
-    with open(corpus_tfidf_path, "wb") as file:
-        pickle.dump(corpus_tfidf, file)
+# Print the topics with their terms
+terms = vectorizer.get_feature_names_out()
 
-# Compute Latent Semantic Indexing
-lsi = models.LsiModel(corpus_tfidf, num_topics=1000)
+for index, component in enumerate(lsi.components_):
+    zipped = zip(terms, component)
+    top_terms_key = sorted(zipped, key=lambda t: t[1], reverse=True)[:5]
+    top_terms_list = list(dict(top_terms_key).keys())
+    print("Topic " + str(index) + ": ", top_terms_list)
 
-# Express each speech to the new dimension of topics
-speech_vectors = []
-for doc in corpus_tfidf:
-    vec_lsi = lsi[doc]
-    speech_vectors.append(vec_lsi)
+variance_explained = sum(lsi.explained_variance_ratio_) * 100
+print("Percentage of total variance explained by the selected components: {:.2f}%".format(variance_explained))
 
-new_vectors = []
-for speech_scores in speech_vectors:
-    speech_vector = [score for _, score in speech_scores]
-    new_vectors.append(speech_vector)
-
-print(new_vectors)
+# Close the file
+sys.stdout.close()

@@ -16,7 +16,7 @@ def remove_stopwords(speech):
 
 
 # Read the dataset
-processed_path = '../data/processed_scratch.csv'
+processed_path = '../data/Processed_Greek_Parliament.csv'
 dataset = pd.read_csv(processed_path)
 # dataset.to_csv(dataset_path, index=True, index_label='ID')
 
