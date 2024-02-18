@@ -17,31 +17,31 @@
     <div class="speech">
         <div class="attribute">
             <span class="label"><b>Μέλος Βουλής:</b></span>
-            <div class="value"> {{ result['member_name'] }}</div>
+            <div class="value"> {{ result['member_name'].values[0] }}</div>
         </div>
         <div class="attribute">
             <span class="label"><b>Ημερομηνία Ομιλίας:</b></span>
-            <div class="value">{{ result['sitting_date'] }}</div>
+            <div class="value">{{ result['sitting_date'].values[0] }}</div>
         </div>
         <div class="attribute">
             <span class="label"><b>Περίοδος:</b></span>
-            <div class="value">{{ result['parliamentary_period'] }}</div>
+            <div class="value">{{ result['parliamentary_period'].values[0] }}</div>
         </div>
         <div class="attribute">
             <span class="label"><b>Συνεδρία:</b></span>
-            <div class="value">{{ result['parliamentary_session'] }}</div>
+            <div class="value">{{ result['parliamentary_session'].values[0] }}</div>
         </div>
         <div class="attribute">
             <span class="label"><b>Συνεδρίαση:</b></span>
-            <div class="value">{{ result['parliamentary_sitting'] }}</div>
+            <div class="value">{{ result['parliamentary_sitting'].values[0] }}</div>
         </div>
         <div class="attribute">
             <span class="label"><b>Κόμμα:</b></span>
-            <div class="value">{{ result['political_party'] }}</div>
+            <div class="value">{{ result['political_party'].values[0] }}</div>
         </div>
         <div class="attribute">
             <span class="label"><b>Ομιλία:</b></span>
-            <div class="value">{{ result['speech'] }}</div>
+            <div class="value">{{ result['speech'].values[0] }}</div>
         </div>
     </div>
 </div>
