@@ -15,8 +15,11 @@ def preprocess_text(text):
 speeches['cleaned_speech'] = speeches['speech'].apply(preprocess_text)
 speeches['sitting_date'] = pd.to_datetime(speeches['sitting_date'], format='%d/%m/%Y').dt.year.astype(str)
 
-# Initialize TF-IDF Vectorizer
-tfidf_vectorizer = TfidfVectorizer(sublinear_tf=True)
+# Function to calculate TF-IDF with TF normalization
+def tfidf_with_tf_normalization(corpus):
+    tfidf_vectorizer = TfidfVectorizer(sublinear_tf=True)
+    tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
+    return tfidf_matrix, tfidf_vectorizer.get_feature_names_out(), tfidf_vectorizer.idf_
 
 # Store results for MPs and parties per year
 mp_year_results = {}
@@ -29,16 +32,22 @@ for (mp, year), group in speeches.groupby(['member_name', 'sitting_date']):
     if not speeches_text:
         continue  # Skip empty documents
 
-    tfidf_matrix = tfidf_vectorizer.fit_transform(speeches_text)
+    tfidf_matrix, feature_names, idf_values = tfidf_with_tf_normalization(speeches_text)
+
     if tfidf_matrix.shape[1] == 0:
         continue  # Skip if vocabulary is empty
 
-    feature_names = tfidf_vectorizer.get_feature_names_out()
-    top_indices = tfidf_matrix.sum(axis=0).argsort()[0, -10:][::-1]  # Select top 10 indices
-    top_feature_names = feature_names[top_indices].tolist()  # Convert NumPy array to list
-    top_keywords = [fn for fn in top_feature_names]  # Create a new list without encoding or decoding
+    # Calculate the sum of TF-IDF values for each feature and divide by IDF if we want to use the normalized form
+    normalized = False
+    if normalized:
+        sum_tfidf_by_idf = (tfidf_matrix.sum(axis=0) / idf_values).tolist()[0]
+    else:
+        sum_tfidf_by_idf = (tfidf_matrix.sum(axis=0)).tolist()[0]
 
-    mp_year_results.setdefault(mp, {}).update({str(year): top_keywords})
+    top_indices = sorted(range(len(sum_tfidf_by_idf)), key=lambda i: sum_tfidf_by_idf[i], reverse=True)[:10]
+    top_feature_names = [feature_names[i] for i in top_indices]
+
+    mp_year_results.setdefault(mp, {}).update({str(year): top_feature_names})
 
 # Iterate through groups (party and year)
 for (party, year), group in speeches.groupby(['political_party', 'sitting_date']):
@@ -47,16 +56,18 @@ for (party, year), group in speeches.groupby(['political_party', 'sitting_date']
     if not speeches_text:
         continue  # Skip empty documents
 
-    tfidf_matrix = tfidf_vectorizer.fit_transform(speeches_text)
+    tfidf_matrix, feature_names, idf_values = tfidf_with_tf_normalization(speeches_text)
+
     if tfidf_matrix.shape[1] == 0:
         continue  # Skip if vocabulary is empty
 
-    feature_names = tfidf_vectorizer.get_feature_names_out()
-    top_indices = tfidf_matrix.sum(axis=0).argsort()[0, -10:][::-1]  # Select top 10 indices
-    top_feature_names = feature_names[top_indices].tolist()  # Convert NumPy array to list
-    top_keywords = [fn for fn in top_feature_names]  # Create a new list without encoding or decoding
+    # Calculate the sum of TF-IDF values for each feature and divide by IDF
+    sum_tfidf_by_idf = (tfidf_matrix.sum(axis=0) / idf_values).tolist()[0]
 
-    party_year_results.setdefault(party, {}).update({str(year): top_keywords})
+    top_indices = sorted(range(len(sum_tfidf_by_idf)), key=lambda i: sum_tfidf_by_idf[i], reverse=True)[:10]
+    top_feature_names = [feature_names[i] for i in top_indices]
+
+    party_year_results.setdefault(party, {}).update({str(year): top_feature_names})
 
 # Combine results
 combined_results = {'MPs': mp_year_results, 'Parties': party_year_results}
