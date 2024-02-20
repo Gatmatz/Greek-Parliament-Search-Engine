@@ -3,6 +3,16 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+"""
+The similarity_computation.py script generates the pairwise similarity of each member in the Parliament:
+    - Per member the speeches of each member is aggregated to one row separating each word with a space
+      creating a new .csv file that is saved to aggregation.pkl using pickle's library.
+    - Next a TF-IDF is executed on the newly aggregated speeches using sublinear term frequency and removing terms 
+      with max_df over the 80% for punishing stopwords like verbs or non-context words.
+    - For the pairwise similarity computation is used the similarity_matrix of sklearn. The pairwise similarity is
+      computed and saved to similarity_matrix.pkl.
+"""
+
 # Initialize the dataset path
 dataset_path = '../../data/Processed_Greek_Parliament.csv'
 # Read the dataset path

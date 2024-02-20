@@ -1,5 +1,9 @@
 import pandas as pd
 
+"""
+The date_formatter.py script transforms the dates of the dataset to a specific format for the necessary analysis.
+"""
+
 # Read the dataset
 dataset_path = 'data/Processed_Greek_Parliament.csv'
 processed_path = 'data/filtered_speeches_1989_1990.csv'

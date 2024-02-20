@@ -3,6 +3,12 @@ import os
 
 
 def fetch_top_k(k):
+    """
+    The fetch_top_k function accepts a number k and returns the top-k pairs of members with the biggest similarity.
+        - The function reads the aggregation_file and the pairwise similarity matrix and creates an array containing the
+          pairs with their similarity.
+        - For the top-k computation the array is sorted by the similarity value and top-k are kept and returned.
+    """
     # Ask for the k parameter
     k = int(k)
     if k < 0:
@@ -20,14 +26,11 @@ def fetch_top_k(k):
 
     # Construct the absolute paths for each pickle file
     aggregation_file = os.path.join(pickle_matrices_path, 'aggregation.pkl')
-    tfidf_file = os.path.join(pickle_matrices_path, 'tfidf_matrix.pkl')
     similarity_file = os.path.join(pickle_matrices_path, 'similarity_matrix.pkl')
 
     # Open the previously computed matrices and variables
     with open(aggregation_file, 'rb') as file:
         aggregation = pickle.load(file)
-    with open(tfidf_file, 'rb') as file:
-        tfidf_matrix = pickle.load(file)
     with open(similarity_file, 'rb') as file:
         similarity_matrix = pickle.load(file)
 

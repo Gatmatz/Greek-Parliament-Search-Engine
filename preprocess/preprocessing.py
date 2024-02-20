@@ -3,6 +3,9 @@ from greek_stemmer import GreekStemmer
 import unicodedata
 import spacy
 
+"""
+The preprocessing.py script contains the necessary functions for the preprocessing pipeline.
+"""
 
 def strip_accents(s):
     """

@@ -1,6 +1,10 @@
 import pandas as pd
 from preprocess.preprocessing import preprocess_text
 
+"""
+The processor.py executes the preprocess pipeline of the dataset.
+"""
+
 # Read the dataset
 dataset_path = '../data/raw.csv'
 processed_path = '../data/processed_scratch.csv'

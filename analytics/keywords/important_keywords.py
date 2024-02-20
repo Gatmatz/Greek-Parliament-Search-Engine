@@ -2,6 +2,13 @@ import pandas as pd
 import json
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+"""
+The important_keywords.py script generates a JSON file that contains:
+    1)For every member of the parliament and for every year the most important keywords using TF-IDF scoring.
+    2)For every party of the parliament and for every year the most importa keywords using again TF-IDF scoring.
+The JSON file is saved to top_keywords_results.json
+"""
+
 # Read the dataset
 dataset_path = '../../data/Processed_Greek_Parliament.csv'
 speeches = pd.read_csv(dataset_path, encoding='utf-8')
@@ -15,11 +22,13 @@ def preprocess_text(text):
 speeches['cleaned_speech'] = speeches['speech'].apply(preprocess_text)
 speeches['sitting_date'] = pd.to_datetime(speeches['sitting_date'], format='%d/%m/%Y').dt.year.astype(str)
 
+
 # Function to calculate TF-IDF with TF normalization
 def tfidf_with_tf_normalization(corpus):
     tfidf_vectorizer = TfidfVectorizer(sublinear_tf=True)
     tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
     return tfidf_matrix, tfidf_vectorizer.get_feature_names_out(), tfidf_vectorizer.idf_
+
 
 # Store results for MPs and parties per year
 mp_year_results = {}

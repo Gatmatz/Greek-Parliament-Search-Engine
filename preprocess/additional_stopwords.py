@@ -1,7 +1,18 @@
 import pandas as pd
 
+"""
+The additional_stopwords.py is an auxiliary function that makes a pass over the set of speeches and removes additional
+stopwords without stemming or any other preprocess technique.
+The execution of the processor.py is required before the execution of the additional_stopwords.py.
+"""
+
 
 def remove_stopwords(speech):
+    """
+    The remove_stopwords function accepts a speech and performs an additional preprocessing:
+        - Removes all words that have less than 3 letters
+        - Removes all stopwords that are in the data/processed_stopwords-el.txt
+    """
     tokens = speech.split()
     filtered = []
     for token in tokens:

@@ -3,6 +3,17 @@ from whoosh.index import create_in
 import csv
 import os
 
+"""
+The indexer.py script creates an inverted index on the preprocessed dataset:
+    - The indexer is built using whoosh library.
+    - A schema is set that defines the features of the dataset and some other options:
+        + The ID column is defined as an ID
+        + The speech column is defined as TEXT (so it is indexed)
+        + All other columns are defined as STORED (the index saves them but does not index them).
+    - A for loop reads every speech and adds it to the whoosh writer for indexing.
+    - The inverted index is saved to the folder inverse_index.
+"""
+
 schema = Schema(ID=ID(stored=True),
                 member_name=STORED,
                 sitting_date=STORED,

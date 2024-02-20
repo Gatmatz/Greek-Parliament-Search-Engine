@@ -5,6 +5,11 @@ from preprocess.preprocessing import preprocess_text
 
 
 def perform_query(search_term):
+    """
+    The perform_query function executes a search query on the inverted index.
+    The function accepts the search term and using whoosh built-in function a search is executed.
+    The results are limited to 100 and returned.
+    """
     indexer_directory = "../backbone/inverse_index"
     ix = open_dir(indexer_directory)
 
