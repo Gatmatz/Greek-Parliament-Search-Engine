@@ -1,10 +1,21 @@
 import json
 import pandas as pd
 from time import time
-from sklearn.cluster import KMeans, MiniBatchKMeans, BisectingKMeans, DBSCAN
+from sklearn.cluster import KMeans, MiniBatchKMeans, BisectingKMeans
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+"""
+The clustering.py use the function perform_lsi to perform Latent Semantic Analysis (LSI) on a dataset of parliamentary 
+speeches and apply Truncated Singular Value Decomposition (TruncatedSVD) for dimensionality reduction, using Term 
+Frequency-Inverse Document Frequency (TF-IDF) representation of the speeches.
+The processed speeches are then clustered using one of the algorithms: K-Means, MiniBatchKMeans, or BisectingKMeans, 
+and the Silhouette Score is calculated to evaluate the quality of the clustering.
+The clustering.py script generates a JSON file that includes, for each cluster, the total size of the speeches it contains 
+and their corresponding speech IDs. The JSON file is saved to clustering_results.json.
+"""
 
 
 def perform_lsi(speeches, num_components):
@@ -37,53 +48,62 @@ def perform_lsi(speeches, num_components):
     return transformed_tfispeeches
 
 
-start_time = time()
+start_time_all = time()
 
-start_time_pross = time()
+
+start_time_of_preprocessing = time()
+
 # Initialize the dataset path
-dataset_path = '../../data/Processed_Greek_Parliament.csv'
+dataset_path = '../../data/small.csv'
 # Read the dataset path
 speeches = pd.read_csv(dataset_path)
 
+# Perform Latent Semantic Analysis (LSA) on speeches
 lsi_speeches = perform_lsi(speeches, 100)
-end_time_pross = time()
-print(f"Ο χρόνος εκτέλεσης του pross είναι: {end_time_pross - start_time_pross} δευτερόλεπτα")
 
-start_time_cluster = time()
+end_time_of_preprocessing = time()
+print(f"Execution time for preprocessing is: {end_time_of_preprocessing - start_time_of_preprocessing} seconds")
 
-# Εφαρμογή του αλγορίθμου k-Means
-num_clusters = 100
-cluster_method = 'MiniBatchKMeans'
 
+start_time_of_clustering = time()
+
+# Assign the name of the clustering algorithm you want to run to the variable cluster_method
+# The clustering method must be one of the following: (KMeans, MiniBatchKMeans, or BisectingKMeans)
+#num_clusters = the number of clusters that I use
+num_clusters = 10
+cluster_method = 'KMeans'
 if cluster_method == 'KMeans':
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
     speeches['Cluster'] = kmeans.fit_predict(lsi_speeches)
-elif cluster_method == 'DBSCAN':
-    dbscan = DBSCAN(eps=0.9, min_samples=100, metric='cosine', n_jobs=-1)
-    speeches['Cluster'] = dbscan.fit_predict(lsi_speeches)
 elif cluster_method == 'MiniBatchKMeans':
-    mbkmeans = MiniBatchKMeans(n_clusters=num_clusters, random_state=42)
+    mbkmeans = MiniBatchKMeans(n_clusters=num_clusters, random_state=42, max_iter=300)
     speeches['Cluster'] = mbkmeans.fit_predict(lsi_speeches)
 elif cluster_method == 'BisectingKMeans':
     bkmeans = BisectingKMeans(n_clusters=num_clusters, random_state=42)
     speeches['Cluster'] = bkmeans.fit_predict(lsi_speeches)
 else:
-    print(f"Άγνωστη μέθοδος ομαδοποίησης: {cluster_method}")
+    print(f"Unknown clustering method: {cluster_method}")
 
-end_time_cluster = time()
-print(f"Ο χρόνος εκτέλεσης του clustering είναι: {end_time_cluster - start_time_cluster} δευτερόλεπτα")
+end_time_of_clustering = time()
+print(f"Execution time for clustering is: {end_time_of_clustering - start_time_of_clustering } seconds")
 
-start_time_silhouette = time()
-# Υπολογισμός του Silhouette Score
+
+start_time_of_silhouette_score = time()
+
+# Compute the Silhouette Score
 silhouette_avg = silhouette_score(lsi_speeches, speeches['Cluster'], metric='cosine', sample_size=100000)
-print(f"Το Silhouette Score είναι: {silhouette_avg}")
-end_time_silhouette = time()
-print(f"Ο χρόνος εκτέλεσης του silhouette είναι: {end_time_silhouette - start_time_silhouette} δευτερόλεπτα")
+print(f"The Silhouette Score is: {silhouette_avg}")
 
-end_time = time()
+end_time_of_silhouette_score = time()
+print(f"Execution time for silhouette score is: {end_time_of_silhouette_score - start_time_of_silhouette_score } seconds")
 
+
+end_time_all = time()
+
+
+# Store clustering results in a dictionary
 results = {}
-start_time_write = time()
+start_time_write_to_file = time()
 unique_clusters = speeches['Cluster'].nunique()
 for cluster_id in range(unique_clusters):
     indices = speeches[speeches['Cluster'] == cluster_id]['ID'].tolist()
@@ -94,21 +114,22 @@ for cluster_id in range(unique_clusters):
             'SpeechId': indices
         }
     }
-    print('cluster ', cluster_id, '  size:', len(indices))
     results.update(cluster_info)
 
-# Αναπροσαρμογή για την εμφάνιση των IDs δίπλα-δίπλα
+# Adjust for displaying IDs side by side
 for cluster_id, cluster_info in results.items():
     cluster_info['SpeechId'] = ', '.join(map(str, cluster_info['SpeechId']))
 
-# Αποθήκευση σε JSON αρχείο
-output_file_path = 'output.json'
+# Save results to a JSON file
+output_file_path = 'clustering_results.json'
 with open(output_file_path, 'w') as json_file:
     json.dump(results, json_file, indent=2)
-end_time_write = time()
-print(f"Ο χρόνος εκτέλεσης του write είναι: {end_time_write - start_time_write} δευτερόλεπτα")
 
-# Εκτύπωση του χρόνου εκτέλεσης
-execution_time = end_time - start_time
-print(f"Ο χρόνος εκτέλεσης του προγράμματος είναι: {execution_time} δευτερόλεπτα")
-print(f"Τα αποτελέσματα αποθηκεύτηκαν στο αρχείο: {output_file_path}")
+end_time_write_to_file = time()
+print(f"Execution time for writing is: {end_time_write_to_file - start_time_write_to_file} seconds")
+
+# Print the total execution time
+execution_time = end_time_all - start_time_all
+print(f"Total program execution time is: {execution_time} seconds")
+print(f"Results have been saved to the file: {output_file_path}")
+

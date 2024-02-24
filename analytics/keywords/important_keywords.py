@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 """
 The important_keywords.py script generates a JSON file that contains:
     1)For every member of the parliament and for every year the most important keywords using TF-IDF scoring.
-    2)For every party of the parliament and for every year the most importa keywords using again TF-IDF scoring.
+    2)For every party of the parliament and for every year the most important keywords using again TF-IDF scoring.
 The JSON file is saved to top_keywords_results.json
 """
 
