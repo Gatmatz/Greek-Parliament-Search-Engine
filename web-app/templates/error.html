@@ -4,8 +4,8 @@
     <title>{{ search_query }} - NefosQuest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
 </head>
 <div class="app-header">
         <h1>
@@ -17,7 +17,8 @@
     <div class="error-container">
         <h1>No Results Found</h1>
         <p>We're sorry, but no results were found for your query.</p>
-        <p>Please try again with different keywords.</p>
+        <p>The query was probably a very specific word or a stopword.</p>
+        <p>Please try again with different/more keywords.</p>
     </div>
 </body>
 </html>

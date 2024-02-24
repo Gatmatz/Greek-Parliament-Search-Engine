@@ -36,6 +36,7 @@ def perform_lsi(speeches, num_components):
 
     return transformed_tfispeeches
 
+
 start_time = time()
 
 start_time_pross = time()
@@ -48,12 +49,11 @@ lsi_speeches = perform_lsi(speeches, 100)
 end_time_pross = time()
 print(f"Ο χρόνος εκτέλεσης του pross είναι: {end_time_pross - start_time_pross} δευτερόλεπτα")
 
-
 start_time_cluster = time()
 
 # Εφαρμογή του αλγορίθμου k-Means
 num_clusters = 100
-cluster_method = 'DBSCAN'
+cluster_method = 'MiniBatchKMeans'
 
 if cluster_method == 'KMeans':
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
@@ -69,7 +69,6 @@ elif cluster_method == 'BisectingKMeans':
     speeches['Cluster'] = bkmeans.fit_predict(lsi_speeches)
 else:
     print(f"Άγνωστη μέθοδος ομαδοποίησης: {cluster_method}")
-
 
 end_time_cluster = time()
 print(f"Ο χρόνος εκτέλεσης του clustering είναι: {end_time_cluster - start_time_cluster} δευτερόλεπτα")

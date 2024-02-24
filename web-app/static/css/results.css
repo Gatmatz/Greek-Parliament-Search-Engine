@@ -45,3 +45,7 @@ body {
     color: #545454;
     font-size: 14px;
 }
+
+.speech-container {
+    padding: 15px;
+}

@@ -33,6 +33,7 @@ for index, row in crisis.iterrows():
 
     # Iterate over each entity tuple
     for entity, entity_type in entities:
+        entity = entity.strip('ς').strip('υ')
         # Increment the corresponding counter based on the entity type
         if entity_type == 'PERSON':
             person_counter[entity] += 1
@@ -47,13 +48,13 @@ for index, row in crisis.iterrows():
 
 # Extract the k most common entities from each counter
 k = 25
-most_common_persons = person_counter.most_common(k)
-most_common_gpes = gpe_counter.most_common(k)
-most_common_orgs = org_counter.most_common(k)
-most_common_event = event_counter.most_common(k)
-most_common_product = product_counter.most_common(k)
+most_common_persons = person_counter.most_common()
+most_common_gpes = gpe_counter.most_common()
+most_common_orgs = org_counter.most_common()
+most_common_event = event_counter.most_common()
+most_common_product = product_counter.most_common()
 
-with open(f'output/frequent_{k}.txt', 'w') as f:
+with open(f'output/frequent.txt', 'w') as f:
     f.write("Most common PERSON entities:\n")
     for entity, count in most_common_persons:
         f.write(f"{entity}: {count}\n")
@@ -74,4 +75,4 @@ with open(f'output/frequent_{k}.txt', 'w') as f:
     for entity, count in most_common_product:
         f.write(f"{entity}: {count}\n")
 
-print(f"Entities written to output/frequent_{k}.txt")
+print(f"Entities written to output/frequent.txt")

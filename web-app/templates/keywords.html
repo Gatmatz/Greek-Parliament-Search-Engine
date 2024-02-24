@@ -7,6 +7,12 @@
     <title>Important Keywords - NefosQuest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+    <style>
+        .keywords-container {
+            padding: 20px;
+            font-size: 17px;
+        }
+    </style>
 </head>
 <body>
 <div class="app-header">
@@ -15,7 +21,8 @@
             NefosQuest
         </h1>
 </div>
-    <h1>Important Keywords</h1>
+<div class="keywords-container">
+     <h1>Important Keywords</h1>
     <h2>Parliament Members</h2>
     <ul>
         {% for mp, mp_data in keywords_data["MPs"].items() %}
@@ -53,5 +60,6 @@
             </ul>
         {% endfor %}
     </ul>
+</div>
 </body>
 </html>

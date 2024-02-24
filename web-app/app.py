@@ -68,13 +68,17 @@ def similarities():
     return render_template('similarities.html', pairs=pairs)
 
 
-@app.route('/analytics/lsi')
+@app.route('/analytics/lsi', methods=['GET', 'POST'])
 def lsi():
     """
     Render the content of the LSI results file.
     """
-    with open('../analytics/LSI/results/topics200.txt', 'r', encoding='utf-8') as file:
+    with open(f'../analytics/LSI/results/topics100.txt', 'r', encoding='utf-8') as file:
         lsi_content = file.read()
+    if request.method == 'POST':
+        num_topics = request.form.get('num_topics')
+        with open(f'../analytics/LSI/results/topics{num_topics}.txt', 'r', encoding='utf-8') as file:
+            lsi_content = file.read()
     return render_template('LSI.html', lsi_content=lsi_content)
 
 
@@ -83,7 +87,7 @@ def ner():
     """
     Render the content of the Named Entity Recognition results file.
     """
-    with open('../analytics/NER/output/frequent_25.txt', 'r', encoding='utf-8') as file:
+    with open('../analytics/NER/output/frequent.txt', 'r', encoding='utf-8') as file:
         ner_content = file.read()
     return render_template('NER.html', ner_content=ner_content)
 

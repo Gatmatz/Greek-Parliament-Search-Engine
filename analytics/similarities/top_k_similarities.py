@@ -44,3 +44,17 @@ def fetch_top_k(k):
     top_k_pairs = sorted(top_k_pairs, key=lambda x: x[1], reverse=True)[:k]
 
     return top_k_pairs
+
+
+def write_to_file():
+    """
+    Auxiliary function that fetches the top 100 pairs and writes them to a .txt file
+    for manual inspection.
+    """
+    k = 100
+    top_k = fetch_top_k(k)
+    # Open a file in write mode
+    with open(f'top_pairs_{k}.txt', 'w') as f:
+        # Iterate over the top k pairs and write each pair to the file
+        for pair in top_k:
+            f.write(f"{pair[0][0]} - {pair[0][1]}: {pair[1]}\n")
