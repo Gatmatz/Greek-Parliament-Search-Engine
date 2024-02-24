@@ -54,7 +54,7 @@ start_time_all = time()
 start_time_of_preprocessing = time()
 
 # Initialize the dataset path
-dataset_path = '../../data/small.csv'
+dataset_path = '../../data/Processed_Greek_Parliament.csv'
 # Read the dataset path
 speeches = pd.read_csv(dataset_path)
 
@@ -70,7 +70,7 @@ start_time_of_clustering = time()
 # Assign the name of the clustering algorithm you want to run to the variable cluster_method
 # The clustering method must be one of the following: (KMeans, MiniBatchKMeans, or BisectingKMeans)
 #num_clusters = the number of clusters that I use
-num_clusters = 10
+num_clusters = 100
 cluster_method = 'KMeans'
 if cluster_method == 'KMeans':
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
