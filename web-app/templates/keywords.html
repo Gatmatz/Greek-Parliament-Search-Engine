@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
+    <title>Important Keywords - NefosQuest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+</head>
+<body>
+<div class="app-header">
+        <h1>
+            <img src="../static/images/NefosQuestLogo-small.png" alt="Logo">
+            NefosQuest
+        </h1>
+</div>
+    <h1>Important Keywords</h1>
+    <h2>Parliament Members</h2>
+    <ul>
+        {% for mp, mp_data in keywords_data["MPs"].items() %}
+            <li>{{ mp }}</li>
+            <ul>
+                {% for year, keywords_list in mp_data.items() %}
+                    <li>{{ year }}</li>
+                    <ul>
+                        {% for keyword_set in keywords_list %}
+                            {% for keyword in keyword_set %}
+                                <li>{{ keyword }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+
+    <h2>Parliament Parties</h2>
+    <ul>
+        {% for party, party_data in keywords_data["Parties"].items() %}
+            <li>{{ party }}</li>
+            <ul>
+                {% for year, keywords_list in party_data.items() %}
+                    <li>{{ year }}</li>
+                    <ul>
+                        {% for keyword_set in keywords_list %}
+                            {% for keyword in keyword_set %}
+                                <li>{{ keyword }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>

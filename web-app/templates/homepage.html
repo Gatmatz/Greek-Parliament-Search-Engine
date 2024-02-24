@@ -19,7 +19,10 @@
             <div class="dropdown">
                 <button class="analytics-btn">Analytics</button>
                 <div class="dropdown-content">
+                    <a href="{{ url_for('keywords') }}">Important Keywords</a>
                     <a href="{{ url_for('similarities', k=5) }}">Member Similarity</a>
+                    <a href="{{ url_for('lsi') }}">Topics - LSI</a>
+                    <a href="{{ url_for('ner') }}">Named Entity Recognition</a>
                 </div>
             </div>
         </div>

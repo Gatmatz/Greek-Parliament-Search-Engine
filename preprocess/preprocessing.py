@@ -7,6 +7,7 @@ import spacy
 The preprocessing.py script contains the necessary functions for the preprocessing pipeline.
 """
 
+
 def strip_accents(s):
     """
     Function that takes a string (word) and strips any punctuation.
@@ -30,7 +31,7 @@ def use_pos(token):
         return False
 
 
-def preprocess_text(speech):
+def preprocess_text(speech, stopwords_flag=True):
     """
     Basic function that removes the punctuation, make the words lowercase,
     Removes the three-letter words, removes the stopwords
@@ -40,15 +41,19 @@ def preprocess_text(speech):
     filtered = []
     stemmer = GreekStemmer()
     for token in tokens:
-        verb_flag = use_pos(token)
+        # verb_flag = use_pos(token)    # Enable this if you want the removal of verbs
+        verb_flag = False  # Delete this if you want the removal of verbs
         # Remove punctuation and make words lowercase
         cleaned = strip_accents(token.lower().translate(str.maketrans('', '', string.punctuation)))
         # STEM the word
         cleaned = stemmer.stem(cleaned.upper()).lower()
         # Check if the cleaned word is not a very small word and not in stopwords and is not a number
-        if len(cleaned) > 3 and cleaned not in stopwords and not cleaned.isdigit() and verb_flag is False:
-            # Αdd it to the final list
-            filtered.append(cleaned.lower())
+        if len(cleaned) > 3 and not cleaned.isdigit() and verb_flag is False:
+            if stopwords_flag and cleaned not in stopwords:
+                # Αdd it to the final list
+                filtered.append(cleaned.lower())
+            elif not stopwords_flag:
+                filtered.append(cleaned.lower())
     # Return null if the final speech in empty
     if len(filtered) == 0:
         return None

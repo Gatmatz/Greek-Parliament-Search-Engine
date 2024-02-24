@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ search_query }} - NefosQuest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+</head>
+<div class="app-header">
+        <h1>
+            <img src="../static/images/NefosQuestLogo-small.png" alt="Logo">
+            NefosQuest
+        </h1>
+</div>
+<body>
+    <div class="error-container">
+        <h1>No Results Found</h1>
+        <p>We're sorry, but no results were found for your query.</p>
+        <p>Please try again with different keywords.</p>
+    </div>
+</body>
+</html>

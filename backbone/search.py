@@ -4,7 +4,11 @@ from whoosh.index import open_dir
 from preprocess.preprocessing import preprocess_text
 
 
-def perform_query(search_term):
+def perform_query(search_term, stopwords_flag=False):
+    # Read the stopwords and create a list of them
+    with open('../data/processed_stopwords-el.txt', 'r') as file:
+        stopwords = set(file.read().splitlines())
+
     """
     The perform_query function executes a search query on the inverted index.
     The function accepts the search term and using whoosh built-in function a search is executed.
@@ -16,12 +20,16 @@ def perform_query(search_term):
     # Open the index searcher
     s = ix.searcher(weighting=scoring.TF_IDF())
 
-    query_string = preprocess_text(search_term)
+    query_string = preprocess_text(search_term, stopwords_flag=stopwords_flag)
+
+    # If search query was a latin word or a stopword
+    if query_string is None or query_string in stopwords:
+        # Search the term as it is
+        query_string = search_term
 
     # Create a query parser and parse the query
     query_parser = QueryParser("speech", ix.schema)
     query = query_parser.parse(query_string)
-
     # Perform the search
     results = s.search(query, limit=100)
 

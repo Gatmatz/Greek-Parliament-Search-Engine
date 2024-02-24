@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 from backbone.search import perform_query
 from backbone.fetching import fetch_speech
 from analytics.similarities.top_k_similarities import fetch_top_k
+import json
 
 """
 The app.py contains the core of the web application.
@@ -27,8 +28,11 @@ def query_results():
     HTML using the render_template function.
     """
     query = request.args.get('query')
-    query_results = perform_query(query)
-    return render_template('results.html', search_query=query, search_results=query_results)
+    query_results = perform_query(query, stopwords_flag=False)
+    if query_results is None or len(query_results) == 0:
+        return render_template('error.html')
+    else:
+        return render_template('results.html', search_query=query, search_results=query_results)
 
 
 @app.route('/show_speech/<int:result_id>')
@@ -39,6 +43,16 @@ def show_speech(result_id):
     """
     result = fetch_speech(result_id)
     return render_template('speech.html', result=result)
+
+
+@app.route('/analytics/keywords')
+def keywords():
+    """
+    Read important keywords results from a JSON file and render it.
+    """
+    with open('../analytics/keywords/top_keywords_results.json', 'r', encoding='utf-8') as json_file:
+        keywords = json.load(json_file)
+    return render_template('keywords.html', keywords_data=keywords)
 
 
 @app.route('/analytics/similarities', methods=['GET'])
@@ -52,6 +66,26 @@ def similarities():
     # Fetch top k pairs
     pairs = fetch_top_k(k)
     return render_template('similarities.html', pairs=pairs)
+
+
+@app.route('/analytics/lsi')
+def lsi():
+    """
+    Render the content of the LSI results file.
+    """
+    with open('../analytics/LSI/results/topics200.txt', 'r', encoding='utf-8') as file:
+        lsi_content = file.read()
+    return render_template('LSI.html', lsi_content=lsi_content)
+
+
+@app.route('/analytics/ner')
+def ner():
+    """
+    Render the content of the Named Entity Recognition results file.
+    """
+    with open('../analytics/NER/output/frequent_25.txt', 'r', encoding='utf-8') as file:
+        ner_content = file.read()
+    return render_template('NER.html', ner_content=ner_content)
 
 
 if __name__ == '__main__':
