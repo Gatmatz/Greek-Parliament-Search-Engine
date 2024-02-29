@@ -1,6 +1,9 @@
 # Greek Parliament Speeches Search Engine & Analytics
 This Python-based project offers a comprehensive solution for analyzing and exploring the speeches delivered in the Greek Parliament from 1989 to 2020. It provides a powerful search engine along with various analytics tools including keyword extraction, Latent Semantic Indexing (LSI), clustering, Named Entity Recognition (NER), and pairwise similarity computation.
 
+![homepage](web-app/homescreen.png)
+
+
 ## Key Features
 - Speech Search Engine: Utilizes advanced search algorithms to enable users to efficiently search through the vast repository of parliamentary speeches.
 
