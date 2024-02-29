@@ -6,6 +6,12 @@
     <link rel="icon" type="image/png" href="../static/images/NefosQuestLogo-small.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+    <style>
+        .ner-container {
+            padding: 20px;
+            font-size: 17px;
+        }
+    </style>
 </head>
 <div class="app-header">
         <h1>
@@ -14,8 +20,10 @@
         </h1>
 </div>
 <body>
+<div class="ner-container">
     <h1>Named Entity Recognition Results</h1>
     <pre>{{ ner_content }}</pre>
+</div>
 </body>
 </html>
 

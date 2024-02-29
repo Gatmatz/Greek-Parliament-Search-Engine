@@ -1,6 +1,13 @@
 import spacy
 import pandas as pd
 
+
+"""
+The NER.py script reads the crisis dataset and performs Named-Entity Recognition on the speeches.
+Creates a new dataset that for every speech if an entity is found then it creates a tuple in the form (entity, entity_type)
+Saves the entity recognition in the output/entities_crisis.csv
+"""
+
 nlp = spacy.load("el_core_news_sm")
 
 

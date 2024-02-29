@@ -1,5 +1,13 @@
 import pandas as pd
 
+"""
+The crisis_generator.py script creates a subset of the original dataset that starts from
+    - September 2, 2009: The Prime Minister K. Karamanlis announces early elections.
+and ends on:
+    - August 20, 2018: The third memorandum expires and Greece exits the memorandum supervision.
+The new dataset is saved to data/crisis.csv
+"""
+
 # Read the CSV file
 speeches = pd.read_csv("../../data/Greek_Parliament_Proceedings_1989_2020.csv")
 
